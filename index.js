@@ -32,3 +32,21 @@ robin.companion.type = "Cat";
 robin.companion.companion = new Character("Frank");
 robin.companion.companion.type = "Flea";
 robin.companion.companion.inventory = ["small hat", "sunglasses"];
+
+robin.roll();
+class Adventurer extends Character {
+    constructor (name, role, stamina) {
+      super(name);
+      this.role = role;
+      this.inventory.push("bedroll", "50 gold coins");
+      this.stamina = stamina;
+    }
+    // Adventurers have the ability to scout ahead of them.
+    scout () {
+      console.log(`${this.name} is scouting ahead...`);
+      super.roll();
+    }
+    attack () {
+        console.log(`${this.name} is attacking for ${super.roll()}`)
+    }
+  }
