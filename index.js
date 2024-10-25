@@ -1,48 +1,24 @@
-const adventurer = {
-    name: "Robin",
-    health: 10,
-    inventory: ["sword", "potion", "artifact"],
-    companion: {
-        name: "Leo",
-        type: "Cat",
-        companion: {
-            name: "Frank",
-            type: "Flea",
-            inventory: ["small hat", "sunglasses" ]
-        }
-    },
-    roll (mod = 0) {
-        const result = Math.floor(Math.random() * 20) + 1 + mod;
-        console.log(`${this.name} rolled a ${result}.`)
-    }
-}
-adventurer.roll();
-
 class Character {
     constructor (name) {
         this.name = name;
-        this.health = 100;
+        this.health = Character.MAX_HEALTH;
         this.inventory = [];
-    },
+    }
     roll (mod = 0) {
         const result = Math.floor(Math.random() * 20) + 1 + mod;
         console.log(`${this.name} rolled a ${result}.`)
     }
+    static MAX_HEALTH = 100;
 }
-const robin = new Character("Robin");
-robin.inventory = ["sword", "potion", "artifact"];
-robin.companion = new Character("Leo");
-robin.companion.type = "Cat";
-robin.companion.companion = new Character("Frank");
-robin.companion.companion.type = "Flea";
-robin.companion.companion.inventory = ["small hat", "sunglasses"];
-
-robin.roll();
 class Adventurer extends Character {
     constructor (name, role, stamina) {
+        if(!Adventurer.ROLES.includes(role))
+        {
+            console.log("Error Role");
+        }
         super(name);
         this.role = role;
-        this.inventory.push("bedroll", "50 gold coins");
+        this.inventory.push(...Adventurer.INVENTORY);
         this.stamina = stamina;
     }
     scout () {
@@ -50,8 +26,11 @@ class Adventurer extends Character {
         super.roll();
     }
     attack () {
-        console.log(`${this.name} is attacking for ${super.roll()}`)
+        console.log(`${this.name} is attacking`)
+        super.roll();
     }
+    static INVENTORY = ["bedroll", "50 gold coins"];
+    static ROLES = ["Fighter", "Healer", "Wizard", "Rogue", "Paladin"];
 }
 class Companion extends Character {
     constructor(name, type) {
@@ -59,11 +38,14 @@ class Companion extends Character {
         this.type = type; 
     }
     attack() {
-        console.log(`${this.name} is attacking for ${super.roll()}.`);
+        console.log(`${this.name} is attacking`);
+        super.roll();
     }
 }
-const robin = new Adventurer("Robin", "Warrior", 10);
+const robin = new Adventurer("Robin", "Fighter", 10);
 robin.inventory.push("sword", "potion", "artifact");
 robin.companion = new Companion("Leo", "Cat");
 robin.companion.companion = new Companion("Frank", "Flea");
 robin.companion.companion.inventory.push("small hat", "sunglasses");
+robin.attack();
+console.log(robin);
